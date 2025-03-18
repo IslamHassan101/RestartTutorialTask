@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "922469280798",
+    "project_id": "restarttutorialtask",
+    "storage_bucket": "restarttutorialtask.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:922469280798:android:89314643a92c79e873920f",
+        "android_client_info": {
+          "package_name": "com.islam.restarttutorialtask"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmjuyOT7TXwTRErgZAASd4VtQzO_3K3YI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

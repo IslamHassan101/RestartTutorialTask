@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">RestartTutorialTask</string>
+    <string name="web_client_id">922469280798-j5vqg4q3175botkberj3s9cfh2s4nhet.apps.googleusercontent.com</string>
+    <string name="home">Home</string>
+    <string name="connect">Connect</string>
+    <string name="questions">Questions</string>
+    <string name="tools">Tools</string>
+    <string name="profile">Profile</string>
+    <string name="sign_out">sign out</string>
+    <string name="profile_picture">Profile picture</string>
+    <string name="top_bar_icon">top_bar_icon</string>
+    <string name="hi_user_name">Hi User Name</string>
+    <string name="study_plan">Study Plan</string>
+    <string name="personal_img">personal_img</string>
+    <string name="icon_place">icon_place</string>
+    <string name="chat">chat</string>
+    <string name="suggestions">suggestions</string>
+    <string name="filter_icon">filter_icon</string>
+    <string name="suggested_study_partner">Suggested Study Partner:</string>
+    <string name="more_icon">more_icon</string>
+    <string name="loram_epsom">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <string name="document_icon">document_icon</string>
+    <string name="answers_count">11 Answers</string>
+    <string name="oral_content">roal</string>
+    <string name="writing">writing</string>
+    <string name="filter">filter\n</string>
+    <string name="plant_img">plant_img</string>
+</resources>
