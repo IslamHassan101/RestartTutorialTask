@@ -30,4 +30,5 @@
     <string name="question_description">Vous pouvez filtrer pour voir un type exact de questions</string>
     <string name="tools_description">Voici les questions avec des réponses modèles</string>
     <string name="profile_description">Voici les questions avec des réponses modèles</string>
+    <string name="tools_screen">Tools Screen</string>
 </resources>

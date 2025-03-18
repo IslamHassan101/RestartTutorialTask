@@ -77,8 +77,9 @@ dependencies {
     //serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
 
-    //spotlight
-    implementation("io.github.morux2:compose-spotlight:1.0")
+
+    //balloon
+    implementation("com.github.skydoves:balloon-compose:1.6.12")
 
 
 }

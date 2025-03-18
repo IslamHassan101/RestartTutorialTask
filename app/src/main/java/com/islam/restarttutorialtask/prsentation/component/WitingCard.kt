@@ -1,6 +1,7 @@
 package com.islam.restarttutorialtask.prsentation.component
 
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +17,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -28,7 +30,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -37,8 +38,13 @@ import androidx.compose.ui.unit.dp
 import com.islam.restarttutorialtask.R
 import com.islam.restarttutorialtask.prsentation.ui.theme.gray
 import com.islam.restarttutorialtask.prsentation.ui.theme.lightGreen
-import jp.morux2.composeSpotlight.Spotlight
-import jp.morux2.composeSpotlight.SpotlightShape
+import com.skydoves.balloon.ArrowOrientation
+import com.skydoves.balloon.BalloonSizeSpec
+import com.skydoves.balloon.compose.Balloon
+import com.skydoves.balloon.compose.BalloonWindow
+import com.skydoves.balloon.compose.rememberBalloonBuilder
+import com.skydoves.balloon.overlay.BalloonOverlayOval
+
 
 data class CardData(
     val title: String,
@@ -100,28 +106,54 @@ private fun generateCardData(): List<CardData> {
     )
 }
 
+
 @Composable
-fun WritingCardGrid(modifier: Modifier = Modifier) {
+fun WritingCardGrid() {
     val cardData = remember { generateCardData() }
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        modifier = Modifier.padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        contentPadding = PaddingValues(8.dp)
+
+
+    var balloonWindow: BalloonWindow? by remember { mutableStateOf(null) }
+
+    val builder = rememberBalloonBuilder {
+        setText("Voici les questions avec des réponses modèles!")
+        setArrowSize(10)
+        setWidthRatio(1.0f)
+        setHeight(BalloonSizeSpec.WRAP)
+        setArrowOrientation(ArrowOrientation.BOTTOM)
+        setArrowPosition(0.2f)
+        setPadding(12)
+        setMarginHorizontal(12)
+        setTextSize(15f)
+        setCornerRadius(8f)
+    }
+
+
+    Balloon(
+        builder = builder,
+        onBalloonWindowInitialized = { balloonWindow = it },
+        onComposedAnchor = { balloonWindow?.showAlignTop() },
+
     ) {
-        items(cardData) { card ->
-            WritingCard(cardData = card, modifier = modifier)
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            modifier = Modifier
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(8.dp)
+        ) {
+            items(cardData) { card ->
+                WritingCard(cardData = card)
+            }
         }
     }
 }
 
 @Composable
 fun WritingCard(
-    modifier: Modifier = Modifier,
     cardData: CardData
 ) {
-    ElevatedCard(modifier = modifier) {
+    ElevatedCard(modifier = Modifier) {
         Column(
             modifier = Modifier
                 .padding(16.dp)

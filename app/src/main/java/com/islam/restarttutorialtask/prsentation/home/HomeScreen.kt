@@ -10,7 +10,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -20,6 +23,11 @@ import com.islam.restarttutorialtask.R
 import com.islam.restarttutorialtask.prsentation.component.TopBar
 import com.islam.restarttutorialtask.prsentation.component.Units
 import com.islam.restarttutorialtask.prsentation.ui.theme.darkGreen
+import com.skydoves.balloon.ArrowOrientation
+import com.skydoves.balloon.BalloonSizeSpec
+import com.skydoves.balloon.compose.Balloon
+import com.skydoves.balloon.compose.BalloonWindow
+import com.skydoves.balloon.compose.rememberBalloonBuilder
 
 data class UnitItem(
     val number: String, val title: String, val description: String
@@ -46,6 +54,30 @@ fun HomeScreen(
                 Units(unitItem = unitItem)
             }
         }
+
+        var balloonWindow: BalloonWindow? by remember { mutableStateOf(null) }
+
+        val builder = rememberBalloonBuilder {
+            setText("Voici les questions avec des réponses modèles!")
+            setArrowSize(10)
+            setWidthRatio(1.0f)
+            setHeight(BalloonSizeSpec.WRAP)
+            setArrowOrientation(ArrowOrientation.BOTTOM)
+            setArrowPosition(0.2f)
+            setPadding(12)
+            setMarginHorizontal(12)
+            setTextSize(15f)
+            setCornerRadius(8f)
+        }
+
+        Balloon(
+            modifier = Modifier.weight(1f),
+            builder = builder,
+            onBalloonWindowInitialized = { balloonWindow = it },
+            onComposedAnchor = { balloonWindow?.showAlignTop() },
+        ) {
+        }
+
     }
 }
 

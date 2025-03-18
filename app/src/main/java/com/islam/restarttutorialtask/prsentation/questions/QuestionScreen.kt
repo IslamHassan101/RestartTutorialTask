@@ -1,8 +1,8 @@
 package com.islam.restarttutorialtask.prsentation.questions
 
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,13 +11,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -25,14 +25,12 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -42,26 +40,25 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.islam.restarttutorialtask.R
 import com.islam.restarttutorialtask.prsentation.component.TopBar
 import com.islam.restarttutorialtask.prsentation.component.WritingCardGrid
 import com.islam.restarttutorialtask.prsentation.ui.theme.blue
 import com.islam.restarttutorialtask.prsentation.ui.theme.gray
 import com.islam.restarttutorialtask.prsentation.ui.theme.lightGreen
-import kotlinx.coroutines.delay
+import com.skydoves.balloon.ArrowOrientation
+import com.skydoves.balloon.BalloonSizeSpec
+import com.skydoves.balloon.compose.Balloon
+import com.skydoves.balloon.compose.BalloonWindow
+import com.skydoves.balloon.compose.rememberBalloonBuilder
+import com.skydoves.balloon.overlay.BalloonOverlayOval
 
 @Composable
 fun QuestionScreen() {
@@ -70,7 +67,6 @@ fun QuestionScreen() {
         QuestionTabRow()
     }
 }
-
 
 @Composable
 fun QuestionTabRow() {
@@ -125,90 +121,29 @@ data class TabItem(val titleResId: Int, val iconResId: Int)
 
 @Composable
 fun WritingScreen() {
-    var targetPosition by remember { mutableStateOf(Offset.Zero) }
-    var targetSize by remember { mutableStateOf(IntSize.Zero) }
-    var showTooltip by remember { mutableStateOf(false) }
-    Box(modifier = Modifier.padding(16.dp)) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(8.dp)
         ) {
-            WritingCardGrid(modifier = Modifier.onGloballyPositioned {
-                targetPosition = it.localToRoot(Offset.Zero)
-                targetSize = it.size
-            })
+            WritingCardGrid()
         }
-        if (showTooltip) {
-            LaunchedEffect(Unit) {
-                delay(3000)
-                showTooltip = false
-            }
-            TooltipBox(tooltipPosition = targetPosition, targetSize = targetSize) {
-                TooltipContent(text = "Cliquez ici pour voir par catégories avec progression")
-            }
-        }
-        LaunchedEffect(targetPosition) {
-            if (targetPosition != Offset.Zero) {
-                showTooltip = true
-            }
-        }
-    }
-
-}
-@Composable
-fun TooltipBox(
-    tooltipPosition: Offset,
-    targetSize: IntSize,
-    content: @Composable () -> Unit
-) {
-    val density = LocalDensity.current
-    val tooltipHeight = with(density) { 40.dp.toPx() }
-    val tooltipPadding = with(density) { 8.dp.toPx() }
-    val xOffset = tooltipPosition.x
-    val yOffset = tooltipPosition.y - tooltipHeight - tooltipPadding // Adjust Y position above the target
-
-    Box(modifier = Modifier
-        .offset(
-            x = with(density) { xOffset.toDp() },
-            y = with(density) { yOffset.toDp() }
-        )
-    ) {
-        content()
     }
 }
 
 @Composable
-fun TooltipContent(text: String) {
-    Box(modifier = Modifier
-        .background(Color.Black, RoundedCornerShape(8.dp))
-        .padding(8.dp)
-        .pointerInput(Unit) {
-            detectTapGestures(
-                onTap = {}
-            )
-        }, contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = text,
-            color = Color.White,
-            fontSize = 12.sp,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .padding(8.dp)
-        )
-    }
-}
-
-@Composable
-fun NewQuestionButton(onClick: () -> Unit) {
-    OutlinedButton(
+fun FilterButton(onClick: () -> Unit) {
+    Button(
         onClick = onClick,
-        modifier = Modifier
-            .padding(vertical = 8.dp),
+        modifier = Modifier.padding(vertical = 8.dp),
         shape = RoundedCornerShape(8.dp),
         colors = ButtonDefaults.buttonColors(
-            contentColor = blue,
+            contentColor = lightGreen,
         ),
     ) {
         Row(
@@ -230,6 +165,7 @@ fun NewQuestionButton(onClick: () -> Unit) {
     }
 }
 
+
 @Composable
 fun OralScreen() {
     Column(
@@ -237,9 +173,37 @@ fun OralScreen() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+
+        var balloonWindow: BalloonWindow? by remember { mutableStateOf(null) }
+
+        val builder = rememberBalloonBuilder {
+            setText("Vous pouvez filtrer pour voir un type exact de questions")
+            setArrowSize(10)
+            setWidthRatio(1.0f)
+            setHeight(BalloonSizeSpec.WRAP)
+            setArrowOrientation(ArrowOrientation.BOTTOM)
+            setArrowPosition(0.5f)
+            setPadding(12)
+            setMarginHorizontal(12)
+            setTextSize(15f)
+            setCornerRadius(8f)
+        }
+
+
+        Balloon(
+            builder = builder,
+            onBalloonWindowInitialized = { balloonWindow = it },
+            onComposedAnchor = { balloonWindow?.showAlignTop() },
+        ) {
+            FilterButton {}
+        }
+
+
+
         QuestionsList(questions = generateQuestions())
     }
 }
+
 
 @Composable
 fun QuestionsList(questions: List<QuestionData>) {
