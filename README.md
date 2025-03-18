@@ -17,6 +17,10 @@ Run the project: `npm start`
 ![Screenshot_20250318-042151_RestartTutorialTask](https://github.com/user-attachments/assets/7342ecf8-8b45-4b63-8284-c3d077bf14fa)
 ![Screenshot_20250318-042142_Google Play services](https://github.com/user-attachments/assets/a8be310f-07d6-476f-8b07-f09c6f1ce4a8)
 
+
+https://github.com/user-attachments/assets/bb639247-c8ed-4334-979c-b801aa6c27db
+
+
 ## Tools ⚙️
 kotlin 
 Android Jetpack compose 
