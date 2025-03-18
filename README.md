@@ -1,6 +1,6 @@
 # Restart Technology Task
 
-This is a brief description of what my project does.
+Jetpack Compose Tutorial Application.
 
 ## Installation
 
