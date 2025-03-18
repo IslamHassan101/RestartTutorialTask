@@ -21,10 +21,14 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -33,6 +37,8 @@ import androidx.compose.ui.unit.dp
 import com.islam.restarttutorialtask.R
 import com.islam.restarttutorialtask.prsentation.ui.theme.gray
 import com.islam.restarttutorialtask.prsentation.ui.theme.lightGreen
+import jp.morux2.composeSpotlight.Spotlight
+import jp.morux2.composeSpotlight.SpotlightShape
 
 data class CardData(
     val title: String,
@@ -99,13 +105,13 @@ fun WritingCardGrid(modifier: Modifier = Modifier) {
     val cardData = remember { generateCardData() }
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        modifier = modifier.padding(16.dp),
+        modifier = Modifier.padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         contentPadding = PaddingValues(8.dp)
     ) {
         items(cardData) { card ->
-            WritingCard(cardData = card)
+            WritingCard(cardData = card, modifier = modifier)
         }
     }
 }
@@ -118,7 +124,6 @@ fun WritingCard(
     ElevatedCard(modifier = modifier) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
                 .padding(16.dp)
         ) {
             Text(

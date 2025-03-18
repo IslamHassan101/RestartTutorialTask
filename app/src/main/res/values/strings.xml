@@ -25,4 +25,9 @@
     <string name="writing">writing</string>
     <string name="filter">filter\n</string>
     <string name="plant_img">plant_img</string>
+    <string name="home_description">Vous trouverez ici des partenaires d\'étude et des personnes avec qui vous connecter</string>
+    <string name="connect_description">Voici les questions avec des réponses modèles</string>
+    <string name="question_description">Vous pouvez filtrer pour voir un type exact de questions</string>
+    <string name="tools_description">Voici les questions avec des réponses modèles</string>
+    <string name="profile_description">Voici les questions avec des réponses modèles</string>
 </resources>

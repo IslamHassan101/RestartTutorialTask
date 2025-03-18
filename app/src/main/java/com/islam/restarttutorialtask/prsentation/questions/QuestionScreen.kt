@@ -1,13 +1,17 @@
 package com.islam.restarttutorialtask.prsentation.questions
 
+
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -28,26 +32,36 @@ import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.islam.restarttutorialtask.R
 import com.islam.restarttutorialtask.prsentation.component.TopBar
 import com.islam.restarttutorialtask.prsentation.component.WritingCardGrid
 import com.islam.restarttutorialtask.prsentation.ui.theme.blue
 import com.islam.restarttutorialtask.prsentation.ui.theme.gray
 import com.islam.restarttutorialtask.prsentation.ui.theme.lightGreen
+import kotlinx.coroutines.delay
 
 @Composable
 fun QuestionScreen() {
@@ -111,13 +125,78 @@ data class TabItem(val titleResId: Int, val iconResId: Int)
 
 @Composable
 fun WritingScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(8.dp)
+    var targetPosition by remember { mutableStateOf(Offset.Zero) }
+    var targetSize by remember { mutableStateOf(IntSize.Zero) }
+    var showTooltip by remember { mutableStateOf(false) }
+    Box(modifier = Modifier.padding(16.dp)) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp)
+        ) {
+            WritingCardGrid(modifier = Modifier.onGloballyPositioned {
+                targetPosition = it.localToRoot(Offset.Zero)
+                targetSize = it.size
+            })
+        }
+        if (showTooltip) {
+            LaunchedEffect(Unit) {
+                delay(3000)
+                showTooltip = false
+            }
+            TooltipBox(tooltipPosition = targetPosition, targetSize = targetSize) {
+                TooltipContent(text = "Cliquez ici pour voir par catégories avec progression")
+            }
+        }
+        LaunchedEffect(targetPosition) {
+            if (targetPosition != Offset.Zero) {
+                showTooltip = true
+            }
+        }
+    }
+
+}
+@Composable
+fun TooltipBox(
+    tooltipPosition: Offset,
+    targetSize: IntSize,
+    content: @Composable () -> Unit
+) {
+    val density = LocalDensity.current
+    val tooltipHeight = with(density) { 40.dp.toPx() }
+    val tooltipPadding = with(density) { 8.dp.toPx() }
+    val xOffset = tooltipPosition.x
+    val yOffset = tooltipPosition.y - tooltipHeight - tooltipPadding // Adjust Y position above the target
+
+    Box(modifier = Modifier
+        .offset(
+            x = with(density) { xOffset.toDp() },
+            y = with(density) { yOffset.toDp() }
+        )
     ) {
-        
-        WritingCardGrid()
+        content()
+    }
+}
+
+@Composable
+fun TooltipContent(text: String) {
+    Box(modifier = Modifier
+        .background(Color.Black, RoundedCornerShape(8.dp))
+        .padding(8.dp)
+        .pointerInput(Unit) {
+            detectTapGestures(
+                onTap = {}
+            )
+        }, contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = text,
+            color = Color.White,
+            fontSize = 12.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .padding(8.dp)
+        )
     }
 }
 
